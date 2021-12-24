@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script
+      type="text/javascript"
+      src="/homey.js"
+      data-origin="settings"
+    ></script>
+  </head>
+  <body>
+    <h1>Hydrawise</h1>
+
+    <fieldset>
+      <legend>Hydrawise API</legend>
+
+      <div class="field row">
+        <label for="api_key">API key</label>
+        <input
+          id="api_key"
+          type="text"
+          value=""
+          placeholder="xxxx-xxxx-xxxx-xxxx"
+        />
+      </div>
+      <p>
+        <a
+          target="_blank"
+          href="https://app.hydrawise.com/config/login"
+          title="Hydrawise site"
+          >Click here to get an valid api key.</a
+        >
+      </p>
+      <p>
+        <a
+          target="blank"
+          href="https://support.hydrawise.com/hc/en-us/articles/360008965753-Hydrawise-API-Information"
+          title="Hydrawise support site"
+          >Click here for more info.</a
+        >
+      </p>
+    </fieldset>
+
+    <button class="right" onclick="save()">Save changes</button>
+
+    <script type="text/javascript">
+      function onHomeyReady() {
+        Homey.ready();
+        Homey.get("api_key", function (err, api_key) {
+          if (err) return console.error("Could not get api_key", err);
+          if (typeof api_key != "undefined") {
+            document.getElementById("api_key").value = api_key;
+          }
+        });
+      }
+
+      function save() {
+        const api = document.getElementById("api_key").value;
+        const regex =
+          /^[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}/;
+
+        if (api.length === 0) {
+          return Homey.alert(__("Please fill in a value"));
+        }
+        if (!regex.test(api)) {
+          return Homey.alert(__("Invalid api key"));
+        }
+        Homey.set("api_key", api);
+        Homey.set("api_url", "http://api.hydrawise.com/api/v1/");
+        Homey.alert(__("API key saved"));
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+[
+  {
+    "id": "duration",
+    "type": "number",
+    "label": { "en": "Duration" },
+    "value": 15,
+    "min": 1,
+    "max": 120,
+    "hint": { "en": "Duration in minutes" }
+  }
+]
