@@ -8,13 +8,13 @@
     ></script>
   </head>
   <body>
-    <h1>Hydrawise</h1>
+    <h1 data-i18n="settings.title"></h1>
 
     <fieldset>
-      <legend>Hydrawise API</legend>
+      <legend data-i18n="settings.apiTitle"></legend>
 
       <div class="field row">
-        <label for="api_key">API key</label>
+        <label for="api_key" data-i18n="settings.apiKey"></label>
         <input
           id="api_key"
           type="text"
@@ -39,6 +39,14 @@
         >
       </p>
     </fieldset>
+    <fieldset id="preferences">
+      <legend data-i18n="settings.preferences"></legend>
+      <div class="field row">
+        <label for="sync_speed" data-i18n="settings.sync_speed"></label>
+        <input id="sync_speed" type="text" value="" />
+        &nbsp;<span data-i18n="settings.sync_tooltip"></span>
+      </div>
+    </fieldset>
 
     <button class="right" onclick="save()">Save changes</button>
 
@@ -59,10 +67,10 @@
           /^[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}/;
 
         if (api.length === 0) {
-          return Homey.alert(__("Please fill in a value"));
+          return Homey.alert(__("errors.emptyApiKey"));
         }
         if (!regex.test(api)) {
-          return Homey.alert(__("Invalid api key"));
+          return Homey.alert(__("errors.invalidApiKey"));
         }
         Homey.set("api_key", api);
         Homey.set("api_url", "http://api.hydrawise.com/api/v1/");

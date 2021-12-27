@@ -3,7 +3,10 @@
     "en": "Zone"
   },
   "class": "other",
-  "capabilities": ["onoff"],
+  "capabilities": ["onoff", "meter_remaining_duration"],
+  "capabilitiesOptions": {
+    "onoff": { "duration": true }
+  },
   "platforms": ["local"],
   "connectivity": ["cloud"],
   "pair": [

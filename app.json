@@ -55,8 +55,14 @@
       },
       "class": "other",
       "capabilities": [
-        "onoff"
+        "onoff",
+        "meter_remaining_duration"
       ],
+      "capabilitiesOptions": {
+        "onoff": {
+          "duration": true
+        }
+      },
       "platforms": [
         "local"
       ],
@@ -90,16 +96,33 @@
           "id": "duration",
           "type": "number",
           "label": {
-            "en": "Duration"
+            "en": "Defaut duration",
+            "nl": "Default sproei duur"
           },
           "value": 15,
           "min": 1,
-          "max": 120,
+          "max": 180,
+          "units": {
+            "en": "minutes",
+            "nl": "minuten"
+          },
           "hint": {
-            "en": "Duration in minutes"
+            "en": "Default watering duration.",
+            "nl": "Default sproei duur"
           }
         }
       ]
     }
-  ]
+  ],
+  "capabilities": {
+    "meter_remaining_duration": {
+      "type": "number",
+      "title": {
+        "en": "Remaining duration"
+      },
+      "uiComponent": "sensor",
+      "getable": true,
+      "setable": false
+    }
+  }
 }

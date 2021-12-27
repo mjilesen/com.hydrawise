@@ -1,13 +1,18 @@
 "use strict";
 
 const { Device } = require("homey");
+const { startstopZone, getZoneStatus } = require("../../lib/Zone");
 
 class MyDevice extends Device {
   /**
    * onInit is called when the device is initialized.
    */
   async onInit() {
-    //this.log('MyDevice has been initialized');
+    await getZoneStatus(this);
+
+    this.registerCapabilityListener("onoff", async (value, options) => {
+      await startstopZone(value, options, this.getSetting("duration"));
+    });
   }
 
   /**

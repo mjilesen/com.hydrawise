@@ -1,0 +1,16 @@
+{
+  "settings": {
+    "title": "Hydrawise instellingen",
+    "apiTitle": "API",
+    "apiKey": "API sleutel",
+    "save": "Gegevens opslaan",
+    "preferences": "Voorkeuren",
+    "sync_speed": "Synchronisatie snelheid",
+    "sync_tooltip": "(seconden)",
+    "save_preferences": "Voorkeuren opslaan"
+  },
+  "errors": {
+    "invalidApiKey": "Incorrecte api sleutel.",
+    "emptyApiKey": "Vul een waarde in"
+  }
+}

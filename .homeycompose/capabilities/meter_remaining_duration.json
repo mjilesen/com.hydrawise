@@ -1,0 +1,7 @@
+{
+  "type": "number",
+  "title": { "en": "Remaining duration" },
+  "uiComponent": "sensor",
+  "getable": true,
+  "setable": false
+}

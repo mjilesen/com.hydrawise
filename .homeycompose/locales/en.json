@@ -1,14 +1,12 @@
 {
-  "unexpectedError": "Unexpected error!",
-  "RESTError": "Invalid request: __status__ __message__",
   "settings": {
     "title": "Hydrawise Settings",
+    "apiTitle": "API",
+    "apiKey": "API key",
     "preferences": "Preferences",
     "sync_speed": "Sync speed",
     "sync_tooltip": "(seconds)",
-    "save_preferences": "Save preferences",
-    "apiTitle": "API",
-    "apiKey": "API key"
+    "save_preferences": "Save preferences"
   },
   "errors": {
     "invalidApiKey": "Invalid api key.",
