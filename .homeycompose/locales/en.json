@@ -4,12 +4,21 @@
     "apiTitle": "API",
     "apiKey": "API key",
     "preferences": "Preferences",
-    "sync_speed": "Sync speed",
-    "sync_tooltip": "(seconds)",
-    "save_preferences": "Save preferences"
+    "polling_frequency": "Update frequency",
+    "polling_frequency_tooltip": "(seconds)",
+    "save_preferences": "Save preferences",
+    "settings_saved": "Settings saved",
+    "save_changes": "Save changes",
+    "polling_enabled": "status updates",
+    "pref_intro1": "The app can poll for updates to keep Homey synchronised to the devices.",
+    "pref_intro2": "This puts a load on the Hydrawise servers so keep switched off if possible.",
+    "pref_intro3": "If you need updates then keep the interval as high as you can.",
+    "get_api_key": "Click here to get an valid API key.",
+    "more_info": "Click here for more info."
   },
   "errors": {
-    "invalidApiKey": "Invalid api key.",
-    "emptyApiKey": "Please fill in a value"
+    "invalidApiKey": "Invalid API key.",
+    "emptyApiKey": "Please fill in a value",
+    "apiKeyGetError": "Could not get API key"
   }
 }

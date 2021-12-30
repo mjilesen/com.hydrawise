@@ -27,7 +27,8 @@
           target="_blank"
           href="https://app.hydrawise.com/config/login"
           title="Hydrawise site"
-          >Click here to get an valid api key.</a
+          data-i18n="settings.get_api_key"
+          ></a
         >
       </p>
       <p>
@@ -35,34 +36,70 @@
           target="blank"
           href="https://support.hydrawise.com/hc/en-us/articles/360008965753-Hydrawise-API-Information"
           title="Hydrawise support site"
-          >Click here for more info.</a
+          data-i18n="settings.more_info"
+          ></a
         >
       </p>
     </fieldset>
     <fieldset id="preferences">
       <legend data-i18n="settings.preferences"></legend>
+      <p id="preferencesText1" data-i18n="settings.pref_intro1"></p>
+      <p id="preferencesText2" data-i18n="settings.pref_intro2"></p>
+      <p id="preferencesText3" data-i18n="settings.pref_intro3"></p>
       <div class="field row">
-        <label for="sync_speed" data-i18n="settings.sync_speed"></label>
-        <input id="sync_speed" type="text" value="" />
-        &nbsp;<span data-i18n="settings.sync_tooltip"></span>
+        <label
+          for="pollingEnabled"
+          data-i18n="settings.polling_enabled"
+        ></label>
+        <input id="pollingEnabled" type="checkbox" value="" />
+      </div>
+      <div class="field row">
+        <label
+          for="pollingFrequency"
+          data-i18n="settings.polling_frequency"
+        ></label>
+        <input id="pollingFrequency" type="number" min="30" value="" />
+        &nbsp;<span data-i18n="settings.polling_frequency_tooltip"></span>
       </div>
     </fieldset>
-
-    <button class="right" onclick="save()">Save changes</button>
+    <button
+      class="right"
+      onclick="save()"
+      data-i18n="settings.save_changes"
+    ></button>
 
     <script type="text/javascript">
+
+       var pollingEnabledEl = document.getElementById('pollingEnabled');
+      var pollingFrequencyEl = document.getElementById('pollingFrequency');
+      var apiKeyEl = document.getElementById('api_key');
+      
       function onHomeyReady() {
         Homey.ready();
-        Homey.get("api_key", function (err, api_key) {
-          if (err) return console.error("Could not get api_key", err);
-          if (typeof api_key != "undefined") {
-            document.getElementById("api_key").value = api_key;
-          }
-        });
+ 
+             Homey.get('api_key', function(err, apiKey)
+            {
+                if (err) return Homey.alert(err);
+                apiKeyEl.value = apiKey;
+            });
+
+ 
+     
+      Homey.get('pollingEnabled', function(err, pollingEnabled)
+            {
+                if (err) return Homey.alert(err);
+                pollingEnabledEl.checked = pollingEnabled;
+            });
+
+                  Homey.get('pollingFrequency', function(err, frequency)
+            {
+                if (err) return Homey.alert(err);
+                pollingFrequencyEl.value = frequency;
+            });
       }
 
       function save() {
-        const api = document.getElementById("api_key").value;
+        const api = apiKeyEl.value;
         const regex =
           /^[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}/;
 
@@ -72,9 +109,16 @@
         if (!regex.test(api)) {
           return Homey.alert(__("errors.invalidApiKey"));
         }
+
         Homey.set("api_key", api);
-        Homey.set("api_url", "http://api.hydrawise.com/api/v1/");
-        Homey.alert(__("API key saved"));
+
+        const pollingFrequency = pollingFrequencyEl.value
+        const pollingEnabled = pollingEnabledEl.checked
+
+        Homey.set("pollingFrequency", pollingFrequency);
+        Homey.set("pollingEnabled", pollingEnabled);
+        Homey.alert(__("settings.settings_saved"));
+
       }
     </script>
   </body>

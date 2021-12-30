@@ -29,22 +29,10 @@
   "flow": {
     "actions": [
       {
-        "id": "start-zone",
         "title": {
-          "en": "Start zone"
+          "en": "Start Zone"
         },
-        "args": [
-          {
-            "type": "number",
-            "name": "Time",
-            "placeholder": {
-              "en": "Time"
-            },
-            "min": 1,
-            "max": 100,
-            "step": 1
-          }
-        ]
+        "id": "start-zone"
       }
     ]
   },

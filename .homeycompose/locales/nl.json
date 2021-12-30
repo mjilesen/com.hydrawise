@@ -5,12 +5,21 @@
     "apiKey": "API sleutel",
     "save": "Gegevens opslaan",
     "preferences": "Voorkeuren",
-    "sync_speed": "Synchronisatie snelheid",
-    "sync_tooltip": "(seconden)",
-    "save_preferences": "Voorkeuren opslaan"
+    "polling_frequency": "Update frequentie",
+    "polling_frequency_tooltip": "(seconden)",
+    "save_preferences": "Voorkeuren opslaan",
+    "settings_saved": "Instellingen opgeslagen",
+    "save_changes": "Opslaan",
+    "polling_enabled": "status updates",
+    "pref_intro1": "Om Homey gesynchroniseerd te houden met uw apparaten, kan de app status updates doen.",
+    "pref_intro2": "Dit zorgt voor een belasting op de Hydrawise servers, dus gelieve de optie uit te laten indien mogelijk.",
+    "pref_intro3": "Als je updates nodig hebt, hou de update frequentie dan zo hoog mogelijk.",
+    "get_api_key": "Click hier voor een API sleutel",
+    "more_info": "Click hier voor meer info."
   },
   "errors": {
-    "invalidApiKey": "Incorrecte api sleutel.",
-    "emptyApiKey": "Vul een waarde in"
+    "invalidApiKey": "Incorrecte API sleutel.",
+    "emptyApiKey": "Vul een waarde in",
+    "apiKeyGetError": "API sleutel kan niet opgevraagd worden"
   }
 }

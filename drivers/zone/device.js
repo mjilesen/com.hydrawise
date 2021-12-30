@@ -3,12 +3,22 @@
 const { Device } = require("homey");
 const { startstopZone, getZoneStatus } = require("../../lib/Zone");
 
-class MyDevice extends Device {
+class HydraWiseDevice extends Device {
   /**
    * onInit is called when the device is initialized.
    */
+
   async onInit() {
-    await getZoneStatus(this);
+    const pollingEnabled = this.homey.settings.get("pollingEnabled");
+
+    if (pollingEnabled) {
+      const pollingFrequency =
+        this.homey.settings.get("pollingFrequency") * 1000;
+      var intervalId = this.homey.setInterval(() => {
+        getZoneStatus(this, this.getData().id);
+      }, pollingFrequency);
+      //this.homey.settings.set("intervalID", intervalId);
+    }
 
     this.registerCapabilityListener("onoff", async (value, options) => {
       await startstopZone(value, options, this.getSetting("duration"));
@@ -47,8 +57,12 @@ class MyDevice extends Device {
    * onDeleted is called when the user deleted the device.
    */
   async onDeleted() {
-    //this.log('MyDevice has been deleted');
+    //const intervalId = this.homey.settings.get("intervalID");
+    //if (intervalId) {
+    this.homey.clearInterval(intervalId);
+    //}
+    this.log("MyDevice has been deleted");
   }
 }
 
-module.exports = MyDevice;
+module.exports = HydraWiseDevice;
