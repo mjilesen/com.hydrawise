@@ -1,0 +1,25 @@
+{
+  "id": "set_polling_speed",
+  "title": {
+    "en": "Set Polling Interval",
+    "nl": "Stel de update frequentie in"
+  },
+  "titleFormatted": {
+    "en": "Set Polling Interval to [[syncSpeed]]",
+    "nl": "Update frequentie naar [[syncSpeed]]"
+  },
+  "args": [
+    {
+      "name": "syncSpeed",
+      "type": "number",
+      "title": {
+        "en": "Interval"
+      },
+      "min": 30,
+      "placeholder": {
+        "en": "Seconds",
+        "nl": "Seconden"
+      }
+    }
+  ]
+}

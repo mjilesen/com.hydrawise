@@ -1,7 +1,7 @@
 "use strict";
 
 const { Device } = require("homey");
-const { startstopZone, getZoneStatus } = require("../../lib/Zone");
+const ZoneHelper = require("../../lib/Zone");
 
 class HydraWiseDevice extends Device {
   /**
@@ -9,19 +9,9 @@ class HydraWiseDevice extends Device {
    */
 
   async onInit() {
-    const pollingEnabled = this.homey.settings.get("pollingEnabled");
-
-    if (pollingEnabled) {
-      const pollingFrequency =
-        this.homey.settings.get("pollingFrequency") * 1000;
-      var intervalId = this.homey.setInterval(() => {
-        getZoneStatus(this, this.getData().id);
-      }, pollingFrequency);
-      //this.homey.settings.set("intervalID", intervalId);
-    }
-
+    this.zoneHelper = new ZoneHelper(this.homey);
     this.registerCapabilityListener("onoff", async (value, options) => {
-      await startstopZone(value, options, this.getSetting("duration"));
+      await this.zoneHelper.startstopZone(value, options, this);
     });
   }
 
@@ -57,11 +47,18 @@ class HydraWiseDevice extends Device {
    * onDeleted is called when the user deleted the device.
    */
   async onDeleted() {
-    //const intervalId = this.homey.settings.get("intervalID");
-    //if (intervalId) {
-    this.homey.clearInterval(intervalId);
-    //}
-    this.log("MyDevice has been deleted");
+    this.log("HydrawiseDevice has been deleted");
+  }
+
+  // Update the capabilities
+  async updateStatus(updatedRelay) {
+    console.log("update status", updatedRelay.run);
+    const runLength = updatedRelay.run / 60;
+    this.setCapabilityValue("meter_remaining_duration", Math.round(runLength));
+  }
+
+  async startZone() {
+    console.log("Start zone ");
   }
 }
 

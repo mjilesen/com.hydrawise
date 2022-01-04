@@ -28,8 +28,7 @@
           href="https://app.hydrawise.com/config/login"
           title="Hydrawise site"
           data-i18n="settings.get_api_key"
-          ></a
-        >
+        ></a>
       </p>
       <p>
         <a
@@ -37,8 +36,7 @@
           href="https://support.hydrawise.com/hc/en-us/articles/360008965753-Hydrawise-API-Information"
           title="Hydrawise support site"
           data-i18n="settings.more_info"
-          ></a
-        >
+        ></a>
       </p>
     </fieldset>
     <fieldset id="preferences">
@@ -55,11 +53,11 @@
       </div>
       <div class="field row">
         <label
-          for="pollingFrequency"
-          data-i18n="settings.polling_frequency"
+          for="pollingInterval"
+          data-i18n="settings.polling_interval"
         ></label>
-        <input id="pollingFrequency" type="number" min="30" value="" />
-        &nbsp;<span data-i18n="settings.polling_frequency_tooltip"></span>
+        <input id="pollingInterval" type="number" min="30" value="" />
+        &nbsp;<span data-i18n="settings.polling_interval_tooltip"></span>
       </div>
     </fieldset>
     <button
@@ -69,33 +67,27 @@
     ></button>
 
     <script type="text/javascript">
+      var pollingEnabledEl = document.getElementById("pollingEnabled");
+      var pollingIntervalEl = document.getElementById("pollingInterval");
+      var apiKeyEl = document.getElementById("api_key");
 
-       var pollingEnabledEl = document.getElementById('pollingEnabled');
-      var pollingFrequencyEl = document.getElementById('pollingFrequency');
-      var apiKeyEl = document.getElementById('api_key');
-      
       function onHomeyReady() {
         Homey.ready();
- 
-             Homey.get('api_key', function(err, apiKey)
-            {
-                if (err) return Homey.alert(err);
-                apiKeyEl.value = apiKey;
-            });
 
- 
-     
-      Homey.get('pollingEnabled', function(err, pollingEnabled)
-            {
-                if (err) return Homey.alert(err);
-                pollingEnabledEl.checked = pollingEnabled;
-            });
+        Homey.get("api_key", function (err, apiKey) {
+          if (err) return Homey.alert(err);
+          apiKeyEl.value = apiKey;
+        });
 
-                  Homey.get('pollingFrequency', function(err, frequency)
-            {
-                if (err) return Homey.alert(err);
-                pollingFrequencyEl.value = frequency;
-            });
+        Homey.get("pollingEnabled", function (err, pollingEnabled) {
+          if (err) return Homey.alert(err);
+          pollingEnabledEl.checked = pollingEnabled;
+        });
+
+        Homey.get("pollingInterval", function (err, frequency) {
+          if (err) return Homey.alert(err);
+          pollingIntervalEl.value = frequency;
+        });
       }
 
       function save() {
@@ -112,13 +104,13 @@
 
         Homey.set("api_key", api);
 
-        const pollingFrequency = pollingFrequencyEl.value
-        const pollingEnabled = pollingEnabledEl.checked
+        const pollingInterval = pollingIntervalEl.value;
+        const pollingEnabled = pollingEnabledEl.checked;
 
-        Homey.set("pollingFrequency", pollingFrequency);
+        Homey.set("pollingInterval", pollingInterval);
         Homey.set("pollingEnabled", pollingEnabled);
-        Homey.alert(__("settings.settings_saved"));
 
+        Homey.alert(__("settings.settings_saved"));
       }
     </script>
   </body>

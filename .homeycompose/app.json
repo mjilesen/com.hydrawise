@@ -3,23 +3,19 @@
   "version": "1.0.0",
   "compatibility": ">=5.0.0",
   "sdk": 3,
-  "platforms": [
-    "local"
-  ],
+  "platforms": ["local"],
   "name": {
     "en": "Hydrawise"
   },
   "description": {
     "en": "Hydrawise"
   },
-  "category": [
-    "climate"
-  ],
+  "category": ["climate"],
   "permissions": [],
   "images": {
-    "small": "/assets/images/small.png",
-    "large": "/assets/images/large.png",
-    "xlarge": "/assets/images/xlarge.png"
+    "small": "/assets/images/garden-sprinkler-small.png",
+    "large": "/assets/images/garden-sprinkler-large.png",
+    "xlarge": "/assets/images/garden-sprinkler-xlarge.png"
   },
   "author": {
     "name": "Monique Jilesen",

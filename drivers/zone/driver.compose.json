@@ -13,7 +13,7 @@
     {
       "id": "list_devices",
       "template": "list_devices",
-      "options": { "singular": true },
+      "options": { "singular": false },
       "navigation": { "next": "add_devices" }
     },
     {
@@ -22,8 +22,8 @@
     }
   ],
   "images": {
-    "small": "{{driverAssetsPath}}/images/small.png",
-    "large": "{{driverAssetsPath}}/images/large.png",
-    "xlarge": "{{driverAssetsPath}}/images/xlarge.png"
+    "small": "{{driverAssetsPath}}/images/garden-sprinkler-small.png",
+    "large": "{{driverAssetsPath}}/images/garden-sprinkler-large.png",
+    "xlarge": "{{driverAssetsPath}}/images/garden-sprinkler-xlarge.png"
   }
 }

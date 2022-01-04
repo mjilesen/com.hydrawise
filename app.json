@@ -18,9 +18,9 @@
   ],
   "permissions": [],
   "images": {
-    "small": "/assets/images/small.png",
-    "large": "/assets/images/large.png",
-    "xlarge": "/assets/images/xlarge.png"
+    "small": "/assets/images/garden-sprinkler-small.png",
+    "large": "/assets/images/garden-sprinkler-large.png",
+    "xlarge": "/assets/images/garden-sprinkler-xlarge.png"
   },
   "author": {
     "name": "Monique Jilesen",
@@ -29,10 +29,72 @@
   "flow": {
     "actions": [
       {
+        "id": "set_polling_mode",
         "title": {
-          "en": "Start Zone"
+          "en": "Turn polling on / off",
+          "nl": "Polling aan/uit zetten"
         },
-        "id": "start-zone"
+        "titleFormatted": {
+          "en": "Turn polling [[newPollingMode]]",
+          "nl": "Zet polling [[newPollingMode]]"
+        },
+        "args": [
+          {
+            "name": "newPollingMode",
+            "type": "dropdown",
+            "title": {
+              "en": "Mode"
+            },
+            "values": [
+              {
+                "id": "on",
+                "label": {
+                  "en": "On",
+                  "nl": "aan"
+                }
+              },
+              {
+                "id": "off",
+                "label": {
+                  "en": "Off",
+                  "nl": "uit"
+                }
+              },
+              {
+                "id": "once",
+                "label": {
+                  "en": "Once",
+                  "nl": "eenmaal"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "set_polling_speed",
+        "title": {
+          "en": "Set Polling Interval",
+          "nl": "Stel de update frequentie in"
+        },
+        "titleFormatted": {
+          "en": "Set Polling Interval to [[syncSpeed]]",
+          "nl": "Update frequentie naar [[syncSpeed]]"
+        },
+        "args": [
+          {
+            "name": "syncSpeed",
+            "type": "number",
+            "title": {
+              "en": "Interval"
+            },
+            "min": 30,
+            "placeholder": {
+              "en": "Seconds",
+              "nl": "Seconden"
+            }
+          }
+        ]
       }
     ]
   },
@@ -62,7 +124,7 @@
           "id": "list_devices",
           "template": "list_devices",
           "options": {
-            "singular": true
+            "singular": false
           },
           "navigation": {
             "next": "add_devices"
@@ -74,9 +136,9 @@
         }
       ],
       "images": {
-        "small": "/drivers/zone/assets/images/small.png",
-        "large": "/drivers/zone/assets/images/large.png",
-        "xlarge": "/drivers/zone/assets/images/xlarge.png"
+        "small": "/drivers/zone/assets/images/garden-sprinkler-small.png",
+        "large": "/drivers/zone/assets/images/garden-sprinkler-large.png",
+        "xlarge": "/drivers/zone/assets/images/garden-sprinkler-xlarge.png"
       },
       "id": "zone",
       "settings": [
