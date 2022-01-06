@@ -52,7 +52,6 @@ class HydraWiseDevice extends Device {
 
   // Update the capabilities
   async updateStatus(updatedRelay) {
-    console.log("update status", updatedRelay.run);
     const runLength = updatedRelay.run / 60;
     this.setCapabilityValue("meter_remaining_duration", Math.round(runLength));
   }

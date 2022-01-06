@@ -21,6 +21,7 @@
       "template": "add_devices"
     }
   ],
+  "icon": "{{driverAssetsPath}}/icon.svg",
   "images": {
     "small": "{{driverAssetsPath}}/images/garden-sprinkler-small.png",
     "large": "{{driverAssetsPath}}/images/garden-sprinkler-large.png",

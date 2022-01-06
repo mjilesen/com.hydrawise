@@ -47,7 +47,7 @@ class MyApp extends Homey.App {
       if (setting === "pollingEnabled") {
         this.pollingEnabled = this.homey.settings.get("pollingEnabled");
 
-        this.log("Polling option changed to: ", this.pollingEnabled);
+        console.log("Polling option changed to: ", this.pollingEnabled);
 
         if (this.pollingEnabled) {
           this.startSync();
@@ -69,8 +69,31 @@ class MyApp extends Homey.App {
     // Setup the flow listeners
     this.addPollingSpeedActionListeners();
     this.addPollingActionListeners();
+    this.addStartAllZonesActionListeners();
+    this.addStopAllZonesActionListeners();
   }
 
+  /**
+   * Adds a listener for start all zones flowcard actions
+   */
+  addStartAllZonesActionListeners() {
+    this.homey.flow
+      .getActionCard("start_all_zones")
+      .registerRunListener(async (args) => {
+        this.zoneHelper.runAllZones(args);
+      });
+  }
+
+  /**
+   * Adds a listener for stop all zones flowcard actions
+   */
+  addStopAllZonesActionListeners() {
+    this.homey.flow
+      .getActionCard("stop_all_zones")
+      .registerRunListener(async () => {
+        this.zoneHelper.stopAllZones();
+      });
+  }
   /**
    * Adds a listener for polling speed flowcard actions
    */

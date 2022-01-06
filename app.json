@@ -95,6 +95,41 @@
             }
           }
         ]
+      },
+      {
+        "id": "start_all_zones",
+        "title": {
+          "en": "Start all zones",
+          "nl": "Start alle zones"
+        },
+        "titleFormatted": {
+          "en": "All zones started for [[duration]] minutes",
+          "nl": "Alle zones starten voor [[duration]] minuten"
+        },
+        "args": [
+          {
+            "type": "number",
+            "name": "duration",
+            "placeholder": {
+              "en": "Duration (minutes, 1-60)",
+              "nl": "Duur (minuten, 1-60)"
+            },
+            "min": 1,
+            "max": 180,
+            "step": 1
+          }
+        ]
+      },
+      {
+        "id": "stop_all_zones",
+        "title": {
+          "en": "Stop all zones",
+          "nl": "Stop alle zones"
+        },
+        "titleFormatted": {
+          "en": "Stop all zones",
+          "nl": "Alle zones stoppen"
+        }
       }
     ]
   },
@@ -135,6 +170,7 @@
           "template": "add_devices"
         }
       ],
+      "icon": "/drivers/zone/assets/icon.svg",
       "images": {
         "small": "/drivers/zone/assets/images/garden-sprinkler-small.png",
         "large": "/drivers/zone/assets/images/garden-sprinkler-large.png",
