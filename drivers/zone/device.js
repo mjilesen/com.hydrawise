@@ -56,9 +56,6 @@ class HydraWiseDevice extends Device {
     this.setCapabilityValue("meter_remaining_duration", Math.round(runLength));
   }
 
-  async startZone() {
-    console.log("Start zone ");
-  }
 }
 
 module.exports = HydraWiseDevice;

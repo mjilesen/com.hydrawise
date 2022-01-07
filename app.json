@@ -7,20 +7,20 @@
   "platforms": [
     "local"
   ],
+  "brandColor": "#378ebf",
   "name": {
-    "en": "Hydrawise"
+    "en": "Hunter Hydrawise"
   },
   "description": {
-    "en": "Hydrawise"
+    "en": "Hydrawise: Smart Wi-Fi Irrigation Control"
   },
   "category": [
     "climate"
   ],
   "permissions": [],
   "images": {
-    "small": "/assets/images/garden-sprinkler-small.png",
-    "large": "/assets/images/garden-sprinkler-large.png",
-    "xlarge": "/assets/images/garden-sprinkler-xlarge.png"
+    "small": "/assets/images/small.png",
+    "large": "/assets/images/large.png"
   },
   "author": {
     "name": "Monique Jilesen",
@@ -172,9 +172,8 @@
       ],
       "icon": "/drivers/zone/assets/icon.svg",
       "images": {
-        "small": "/drivers/zone/assets/images/garden-sprinkler-small.png",
-        "large": "/drivers/zone/assets/images/garden-sprinkler-large.png",
-        "xlarge": "/drivers/zone/assets/images/garden-sprinkler-xlarge.png"
+        "small": "/drivers/zone/assets/images/small.png",
+        "large": "/drivers/zone/assets/images/large.png"
       },
       "id": "zone",
       "settings": [

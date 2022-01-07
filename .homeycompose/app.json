@@ -4,21 +4,26 @@
   "compatibility": ">=5.0.0",
   "sdk": 3,
   "platforms": ["local"],
+  "brandColor": "#378ebf",
   "name": {
-    "en": "Hydrawise"
+    "en": "Hunter Hydrawise"
   },
   "description": {
-    "en": "Hydrawise"
+    "en": "Hydrawise: Smart Wi-Fi Irrigation Control"
   },
   "category": ["climate"],
   "permissions": [],
   "images": {
-    "small": "/assets/images/garden-sprinkler-small.png",
-    "large": "/assets/images/garden-sprinkler-large.png",
-    "xlarge": "/assets/images/garden-sprinkler-xlarge.png"
+    "small": "/assets/images/small.png",
+    "large": "/assets/images/large.png"
   },
   "author": {
     "name": "Monique Jilesen",
     "email": "monique.jilesen@gmail.com"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/mjilesen/com.hydrawise/issues"
+  },
+  "source": "https://github.com/mjilesen/com.hydrawise",
+  "support": "https://github.com/mjilesen/com.hydrawise/issues"
 }

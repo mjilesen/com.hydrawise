@@ -6,53 +6,34 @@ const ZoneHelper = require("./lib/Zone");
 const INITIAL_POLLING_INTERVAL = 60; // interval of 60 seconds
 const MIN_POLLING_INTERVAL = 30;
 
-class MyApp extends Homey.App {
+class HydrawiseApp extends Homey.App {
   /**
    * onInit is called when the app is initialized.
    */
   async onInit() {
     this.syncing = false;
     this.timerId = null;
-    this.commandsQueued = 0;
     this.lastSync = 0;
     this.lastBatchId = 0;
 
     this.zoneHelper = new ZoneHelper(this.homey);
 
-    this.pollingEnabled = this.homey.settings.get("pollingEnabled");
-    if (this.pollingEnabled === null) {
-      this.pollingEnabled = false;
-      this.homey.settings.set("pollingEnabled", this.pollingEnabled);
-    }
+    this.setInitialPollingSettings();
 
-    if (!this.homey.settings.get("pollingInterval")) {
-      this.homey.settings.set("pollingInterval", INITIAL_POLLING_INTERVAL);
-    }
-    try {
-      this.interval = Number(this.homey.settings.get("pollingInterval"));
-      if (this.interval < MIN_POLLING_INTERVAL) {
-        this.interval = MIN_POLLING_INTERVAL;
-        this.homey.settings.set("pollingInterval", this.interval);
-      }
-    } catch (e) {
-      this.interval = INITIAL_POLLING_INTERVAL;
-      this.homey.settings.set("pollingInterval", this.interval);
-    }
-
+    //start polling if enabled
     if (this.pollingEnabled) {
-      this.startSync();
+      this.startPolling();
     }
 
     this.homey.settings.on("set", (setting) => {
       if (setting === "pollingEnabled") {
         this.pollingEnabled = this.homey.settings.get("pollingEnabled");
-
-        console.log("Polling option changed to: ", this.pollingEnabled);
+        this.log("Polling option changed to: ", this.pollingEnabled);
 
         if (this.pollingEnabled) {
-          this.startSync();
-        } else if (this.commandsQueued === 0) {
-          this.stopSync();
+          this.startPolling();
+        } else {
+          this.stopPolling();
         }
       } else if (setting === "pollingInterval") {
         try {
@@ -61,8 +42,10 @@ class MyApp extends Homey.App {
           this.interval = INITIAL_POLLING_INTERVAL;
           this.homey.settings.set("pollingInterval", this.interval);
         }
-
-        this.startSync();
+        //re-start polling with the new interval
+        if (this.pollingEnabled) {
+          this.startPolling();
+        }
       }
     });
 
@@ -105,12 +88,7 @@ class MyApp extends Homey.App {
         this.homey.settings.set("pollingInterval", this.interval.toString());
         this.homey.settings.set("pollingEnabled", true);
 
-        if (this.commandsQueued > 0) {
-          // Sync is currently boosted so don't make any changes now
-          return;
-        }
-
-        this.startSync();
+        this.startPolling();
       });
   }
 
@@ -125,148 +103,61 @@ class MyApp extends Homey.App {
         this.homey.settings.set("pollingEnabled", this.pollingEnabled);
 
         if (args.newPollingMode === "on") {
-          this.startSync();
+          return this.startPolling();
         } else if (args.newPollingMode === "once") {
-          this.nextInterval = 0;
-
-          if (this.timerId) {
-            clearTimeout(this.timerId);
-            this.timerId = null;
-          }
-
-          if (!this.syncing) {
-            this.timerId = this.homey.setTimeout(() => this.syncLoop(), 3000);
-          }
+          this.singlePoll();
         } else {
-          return this.stopSync();
+          return this.stopPolling();
         }
-        return true;
       });
   }
 
-  async stopSync() {
-    this.pollingEnabled = false;
-
-    if (this.timerId) {
-      clearTimeout(this.timerId);
-      this.timerId = null;
-
-      this.log("Stop sync requested");
-    }
-  }
-
-  async startSync() {
-    this.nextInterval = 0;
-
-    if (this.timerId) {
-      clearTimeout(this.timerId);
-      this.timerId = null;
-    }
-
+  setInitialPollingSettings() {
     this.pollingEnabled = this.homey.settings.get("pollingEnabled");
-    if (this.pollingEnabled) {
-      this.log("Start polling requested");
-
-      let interval = 0.1;
-
-      // make sure the new sync is at least 30 second after the last one
-      let minSeconds = (30000 - (Date.now() - this.lastSync)) / 1000;
-      if (minSeconds > 0) {
-        if (minSeconds > 30) {
-          minSeconds = 30;
-        }
-        interval = minSeconds;
-      }
-
-      this.log("Restart sync in: ", interval);
-      this.nextInterval = this.interval * 1000;
-      if (!this.syncing) {
-        this.timerId = this.homey.setTimeout(
-          () => this.syncLoop(),
-          interval * 1000
-        );
-      }
+    if (this.pollingEnabled === null) {
+      this.pollingEnabled = false;
+      this.homey.settings.set("pollingEnabled", this.pollingEnabled);
     }
-  }
 
-  // The main polling loop that updates the status of the zones
-  async syncLoop() {
-    if (!this.syncing) {
-      this.syncing = true;
-
-      if (this.timerId) {
-        // make sure any existing timer is canceled
-        clearTimeout(this.timerId);
-        this.timerId = null;
-      }
-
-      if (Date.now() - this.lastSync > 28000) {
-        this.lastSync = Date.now();
-
-        try {
-          await this.updateStatus();
-        } catch (error) {
-          this.log("syncLoop", error.message);
-        }
-      } else {
-        this.log("Skipping sync: too soon");
-      }
-
-      if (this.nextInterval > 0) {
-        // Setup timer for next sync
-        this.timerId = this.homey.setTimeout(
-          () => this.syncLoop(),
-          this.nextInterval
-        );
-      } else {
-        this.log("Not renewing sync");
-      }
-
-      // Signal that the sync has completed
-      this.syncing = false;
-    } else {
-      this.log("Skipping sync: Previous sync active");
+    if (!this.homey.settings.get("pollingInterval")) {
+      this.homey.settings.set("pollingInterval", INITIAL_POLLING_INTERVAL);
     }
-  }
-
-  varToString(source) {
     try {
-      if (source === null) {
-        return "null";
+      this.interval = Number(this.homey.settings.get("pollingInterval"));
+      if (this.interval < MIN_POLLING_INTERVAL) {
+        this.interval = MIN_POLLING_INTERVAL;
+        this.homey.settings.set("pollingInterval", this.interval);
       }
-      if (source === undefined) {
-        return "undefined";
-      }
-      if (source instanceof Error) {
-        const stack = source.stack.replace("/\\n/g", "\n");
-        return `${source.message}\n${stack}`;
-      }
-      if (typeof source === "object") {
-        const getCircularReplacer = () => {
-          const seen = new WeakSet();
-          return (key, value) => {
-            if (typeof value === "object" && value !== null) {
-              if (seen.has(value)) {
-                return "";
-              }
-              seen.add(value);
-            }
-            return value;
-          };
-        };
-
-        return JSON.stringify(source, getCircularReplacer(), 2);
-      }
-      if (typeof source === "string") {
-        return source;
-      }
-    } catch (err) {
-      this.homey.app.updateLog(`VarToString Error: ${err}`, 0);
+    } catch (e) {
+      this.interval = INITIAL_POLLING_INTERVAL;
+      this.homey.settings.set("pollingInterval", this.interval);
     }
-
-    return source.toString();
   }
 
+  async startPolling() {
+    this.log("start polling");
+    //make sure any old polling actions are stopped
+    this.stopPolling();
+
+    this.timerId = this.homey.setInterval(() => {
+      this.log("Update status", new Date().toISOString());
+      this.updateStatus();
+    }, this.interval * 1000);
+  }
+
+  async stopPolling() {
+    this.log("Stop polling");
+    if (this.timerId) {
+      clearTimeout(this.timerId);
+      this.timerId = null;
+    }
+  }
+
+  async singlePoll() {
+    this.log("single poll");
+    this.updateStatus();
+  }
+  
   // update the status for each device
   async updateStatus() {
     try {
@@ -303,4 +194,4 @@ class MyApp extends Homey.App {
   }
 }
 
-module.exports = MyApp;
+module.exports = HydrawiseApp;
