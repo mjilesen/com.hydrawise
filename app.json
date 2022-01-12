@@ -26,6 +26,23 @@
     "name": "Monique Jilesen",
     "email": "monique.jilesen@gmail.com"
   },
+  "bugs": {
+    "url": "https://github.com/mjilesen/com.hydrawise/issues"
+  },
+  "source": "https://github.com/mjilesen/com.hydrawise",
+  "support": "https://github.com/mjilesen/com.hydrawise/issues",
+  "tags": {
+    "en": [
+      "Hunter Hydrawise",
+      "Zone",
+      "Sprinkler"
+    ],
+    "nl": [
+      "Hunter Hydrawise",
+      "Zone",
+      "Sproeier"
+    ]
+  },
   "flow": {
     "actions": [
       {
@@ -141,7 +158,9 @@
       "class": "other",
       "capabilities": [
         "onoff",
-        "meter_remaining_duration"
+        "meter_remaining_duration",
+        "meter_time_next_run_duration",
+        "meter_time_next_run"
       ],
       "capabilitiesOptions": {
         "onoff": {
@@ -203,11 +222,43 @@
     "meter_remaining_duration": {
       "type": "number",
       "title": {
-        "en": "Remaining duration"
+        "en": "Remaining duration",
+        "nl": "Resterende duur"
+      },
+      "units": {
+        "en": "min",
+        "nl": "min"
       },
       "uiComponent": "sensor",
       "getable": true,
-      "setable": false
+      "setable": false,
+      "icon": "/assets/remainingDuration.svg"
+    },
+    "meter_time_next_run": {
+      "type": "string",
+      "title": {
+        "en": "Next run at",
+        "nl": "Volgende run om"
+      },
+      "uiComponent": "sensor",
+      "getable": true,
+      "setable": false,
+      "icon": "/assets/nextRunAt.svg"
+    },
+    "meter_time_next_run_duration": {
+      "type": "number",
+      "title": {
+        "en": "Next run duration",
+        "nl": "Volgende run duur"
+      },
+      "units": {
+        "en": "min",
+        "nl": "min"
+      },
+      "uiComponent": "sensor",
+      "getable": true,
+      "setable": false,
+      "icon": "/assets/nextRunDuration.svg"
     }
   }
 }

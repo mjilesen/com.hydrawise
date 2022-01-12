@@ -1,0 +1,8 @@
+{
+  "type": "string",
+  "title": { "en": "Next run at", "nl": "Volgende run om" },
+  "uiComponent": "sensor",
+  "getable": true,
+  "setable": false,
+  "icon": "/assets/nextRunAt.svg"
+}

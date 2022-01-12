@@ -10,8 +10,14 @@ class HydraWiseDevice extends Device {
 
   async onInit() {
     this.zoneHelper = new ZoneHelper(this.homey);
+    this.isChangedByStatusUpdate = false;
     this.registerCapabilityListener("onoff", async (value, options) => {
-      await this.zoneHelper.startstopZone(value, options, this);
+      console.log("onoff change", this.isChangedByStatusUpdate);
+      if (!this.isChangedByStatusUpdate) {
+        this.log("startstopZone");
+        await this.zoneHelper.startstopZone(value, options, this);
+      }
+      this.isChangedByStatusUpdate = false;
     });
   }
 
@@ -52,10 +58,26 @@ class HydraWiseDevice extends Device {
 
   // Update the capabilities
   async updateStatus(updatedRelay) {
-    const runLength = updatedRelay.run / 60;
+    const runLength =
+      updatedRelay.timestr === "now" ? updatedRelay.run / 60 : 0;
+    this.isChangedByStatusUpdate = true;
     this.setCapabilityValue("meter_remaining_duration", Math.round(runLength));
+    this.setCapabilityValue("onoff", updatedRelay.runLength > 0);
+    this.setCapabilityValue(
+      "meter_time_next_run_duration",
+      updatedRelay.timestr === "now" ? 0 : updatedRelay.run / 60
+    );
+    this.setCapabilityValue("meter_time_next_run", updatedRelay.timestr);
   }
 
+  getRemainingDuration() {
+    return this.getCapabilityValue("meter_remaining_duration");
+  }
+
+  setZoneOnOff(on) {
+    this.isChangedByStatusUpdate = true;
+    this.setCapabilityValue("onoff", on);
+  }
 }
 
 module.exports = HydraWiseDevice;

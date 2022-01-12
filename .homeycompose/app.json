@@ -25,5 +25,9 @@
     "url": "https://github.com/mjilesen/com.hydrawise/issues"
   },
   "source": "https://github.com/mjilesen/com.hydrawise",
-  "support": "https://github.com/mjilesen/com.hydrawise/issues"
+  "support": "https://github.com/mjilesen/com.hydrawise/issues",
+  "tags": {
+    "en": ["Hunter Hydrawise", "Zone", "Sprinkler"],
+    "nl": ["Hunter Hydrawise", "Zone", "Sproeier"]
+  }
 }

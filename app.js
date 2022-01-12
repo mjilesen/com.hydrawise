@@ -157,37 +157,64 @@ class HydrawiseApp extends Homey.App {
     this.log("single poll");
     this.updateStatus();
   }
-  
+
+  getAllDevices() {
+    const driver = this.homey.drivers.getDriver("zone");
+    return driver.getDevices();
+  }
+
+  setAllDevicesOnOff(on) {
+    console.log("set all devices off");
+    //reset the device onoff status per device
+    const devices = this.getAllDevices();
+    devices.forEach((device) => {
+      device.setZoneOnOff(on);
+    });
+    //turn polling on (always while something is running)
+    if (this.timerId === null && on) {
+      this.homey.app.startPolling();
+      //turn polling off when devices are turned off and polling is not enabled by default
+    } else if (!on && this.timerId != null && !this.homey.app.pollingEnabled) {
+      this.stopPolling();
+    }
+  }
   // update the status for each device
   async updateStatus() {
     try {
       const promises = [];
+      const devices = this.getAllDevices();
 
-      const drivers = this.homey.drivers.getDrivers();
       //batch to make sure that data from Hydrawise is fetched only once per loop
       this.lastBatchId++;
       if (this.lastBatchId === Number.MAX_VALUE) {
         this.lastBatchId = 1;
       }
-      for (const driver in drivers) {
-        if (Object.prototype.hasOwnProperty.call(drivers, driver)) {
-          const devices = this.homey.drivers.getDriver(driver).getDevices();
-          const numDevices = devices ? devices.length : 0;
-          for (let i = 0; i < numDevices; i++) {
-            const device = devices[i];
-            try {
-              promises.push(
-                this.zoneHelper.updateZoneStatus(device, this.lastBatchId)
-              );
-            } catch (error) {
-              this.log("Sync Devices", error.message);
-            }
-          }
+
+      const numDevices = devices ? devices.length : 0;
+      for (let i = 0; i < numDevices; i++) {
+        const device = devices[i];
+        try {
+          promises.push(
+            this.zoneHelper.updateZoneStatus(device, this.lastBatchId)
+          );
+        } catch (error) {
+          this.log("Sync Devices", error.message);
         }
       }
 
       // Wait for all the checks to complete
       await Promise.allSettled(promises);
+      const runningDevices = devices.filter((device) => {
+        return device.getRemainingDuration() != 0;
+      });
+      //stop polling if all zones are done and polling is not enabled
+      if (
+        !this.homey.app.pollingEnabled &&
+        this.timerId != null &&
+        runningDevices.length === 0
+      ) {
+        this.homey.app.stopPolling();
+      }
     } catch (error) {
       this.log(error.message, error.stack);
     }

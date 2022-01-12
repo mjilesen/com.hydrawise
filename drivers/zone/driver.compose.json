@@ -3,7 +3,12 @@
     "en": "Zone"
   },
   "class": "other",
-  "capabilities": ["onoff", "meter_remaining_duration"],
+  "capabilities": [
+    "onoff",
+    "meter_remaining_duration",
+    "meter_time_next_run_duration",
+    "meter_time_next_run"
+  ],
   "capabilitiesOptions": {
     "onoff": { "duration": true }
   },
