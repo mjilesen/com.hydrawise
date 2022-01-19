@@ -1,0 +1,12 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Remaining duration",
+    "nl": "Resterende duur"
+  },
+  "units": { "en": "min", "nl": "min" },
+  "uiComponent": "sensor",
+  "getable": true,
+  "setable": false,
+  "icon": "/assets/remainingDuration.svg"
+}

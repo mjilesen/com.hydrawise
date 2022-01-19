@@ -3,14 +3,22 @@
     "en": "Zone"
   },
   "class": "other",
-  "capabilities": ["onoff"],
+  "capabilities": [
+    "onoff",
+    "meter_remaining_duration",
+    "meter_time_next_run_duration",
+    "meter_time_next_run"
+  ],
+  "capabilitiesOptions": {
+    "onoff": { "duration": true }
+  },
   "platforms": ["local"],
   "connectivity": ["cloud"],
   "pair": [
     {
       "id": "list_devices",
       "template": "list_devices",
-      "options": { "singular": true },
+      "options": { "singular": false },
       "navigation": { "next": "add_devices" }
     },
     {
@@ -18,9 +26,9 @@
       "template": "add_devices"
     }
   ],
+  "icon": "{{driverAssetsPath}}/icon.svg",
   "images": {
     "small": "{{driverAssetsPath}}/images/small.png",
-    "large": "{{driverAssetsPath}}/images/large.png",
-    "xlarge": "{{driverAssetsPath}}/images/xlarge.png"
+    "large": "{{driverAssetsPath}}/images/large.png"
   }
 }

@@ -1,9 +1,11 @@
 const Homey = require("homey");
-const { getZones } = require("../../lib/Zone");
+const ZoneHelper = require("../../lib/Zone");
 
 class Driver extends Homey.Driver {
+
   async onPairListDevices() {
-    return await getZones(this.homey);
+    this.zoneHelper = new ZoneHelper(this.homey);
+    return await this.zoneHelper.getZones();
   }
 }
 

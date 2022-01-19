@@ -1,0 +1,11 @@
+{
+  "id": "stop_all_zones",
+  "title": {
+    "en": "Stop all zones",
+    "nl": "Stop alle zones"
+  },
+  "titleFormatted": {
+    "en": "Stop all zones",
+    "nl": "Alle zones stoppen"
+  }
+}

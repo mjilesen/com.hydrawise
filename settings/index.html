@@ -8,13 +8,13 @@
     ></script>
   </head>
   <body>
-    <h1>Hydrawise</h1>
+    <h1 data-i18n="settings.title"></h1>
 
     <fieldset>
-      <legend>Hydrawise API</legend>
+      <legend data-i18n="settings.apiTitle"></legend>
 
       <div class="field row">
-        <label for="api_key">API key</label>
+        <label for="api_key" data-i18n="settings.apiKey"></label>
         <input
           id="api_key"
           type="text"
@@ -27,46 +27,90 @@
           target="_blank"
           href="https://app.hydrawise.com/config/login"
           title="Hydrawise site"
-          >Click here to get an valid api key.</a
-        >
+          data-i18n="settings.get_api_key"
+        ></a>
       </p>
       <p>
         <a
           target="blank"
           href="https://support.hydrawise.com/hc/en-us/articles/360008965753-Hydrawise-API-Information"
           title="Hydrawise support site"
-          >Click here for more info.</a
-        >
+          data-i18n="settings.more_info"
+        ></a>
       </p>
     </fieldset>
-
-    <button class="right" onclick="save()">Save changes</button>
+    <fieldset id="preferences">
+      <legend data-i18n="settings.preferences"></legend>
+      <p id="preferencesText1" data-i18n="settings.pref_intro1"></p>
+      <p id="preferencesText2" data-i18n="settings.pref_intro2"></p>
+      <p id="preferencesText3" data-i18n="settings.pref_intro3"></p>
+      <div class="field row">
+        <label
+          for="pollingEnabled"
+          data-i18n="settings.polling_enabled"
+        ></label>
+        <input id="pollingEnabled" type="checkbox" value="" />
+      </div>
+      <div class="field row">
+        <label
+          for="pollingInterval"
+          data-i18n="settings.polling_interval"
+        ></label>
+        <input id="pollingInterval" type="number" min="30" value="" />
+        &nbsp;<span data-i18n="settings.polling_interval_tooltip"></span>
+      </div>
+    </fieldset>
+    <button
+      class="right"
+      onclick="save()"
+      data-i18n="settings.save_changes"
+    ></button>
 
     <script type="text/javascript">
+      var pollingEnabledEl = document.getElementById("pollingEnabled");
+      var pollingIntervalEl = document.getElementById("pollingInterval");
+      var apiKeyEl = document.getElementById("api_key");
+
       function onHomeyReady() {
         Homey.ready();
-        Homey.get("api_key", function (err, api_key) {
-          if (err) return console.error("Could not get api_key", err);
-          if (typeof api_key != "undefined") {
-            document.getElementById("api_key").value = api_key;
-          }
+
+        Homey.get("api_key", function (err, apiKey) {
+          if (err) return Homey.alert(err);
+          apiKeyEl.value = apiKey;
+        });
+
+        Homey.get("pollingEnabled", function (err, pollingEnabled) {
+          if (err) return Homey.alert(err);
+          pollingEnabledEl.checked = pollingEnabled;
+        });
+
+        Homey.get("pollingInterval", function (err, frequency) {
+          if (err) return Homey.alert(err);
+          pollingIntervalEl.value = frequency;
         });
       }
 
       function save() {
-        const api = document.getElementById("api_key").value;
+        const api = apiKeyEl.value;
         const regex =
           /^[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}/;
 
         if (api.length === 0) {
-          return Homey.alert(__("Please fill in a value"));
+          return Homey.alert(__("errors.emptyApiKey"));
         }
         if (!regex.test(api)) {
-          return Homey.alert(__("Invalid api key"));
+          return Homey.alert(__("errors.invalidApiKey"));
         }
+
         Homey.set("api_key", api);
-        Homey.set("api_url", "http://api.hydrawise.com/api/v1/");
-        Homey.alert(__("API key saved"));
+
+        const pollingInterval = pollingIntervalEl.value;
+        const pollingEnabled = pollingEnabledEl.checked;
+
+        Homey.set("pollingInterval", pollingInterval);
+        Homey.set("pollingEnabled", pollingEnabled);
+
+        Homey.alert(__("settings.settings_saved"));
       }
     </script>
   </body>

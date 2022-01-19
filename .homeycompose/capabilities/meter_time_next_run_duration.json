@@ -1,0 +1,9 @@
+{
+  "type": "number",
+  "title": { "en": "Next run duration", "nl": "Volgende run duur" },
+  "units": { "en": "min", "nl": "min" },
+  "uiComponent": "sensor",
+  "getable": true,
+  "setable": false,
+  "icon": "/assets/nextRunDuration.svg"
+}

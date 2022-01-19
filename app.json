@@ -7,11 +7,12 @@
   "platforms": [
     "local"
   ],
+  "brandColor": "#378ebf",
   "name": {
-    "en": "Hydrawise"
+    "en": "Hunter Hydrawise"
   },
   "description": {
-    "en": "Hydrawise"
+    "en": "Hydrawise: Smart Wi-Fi Irrigation Control"
   },
   "category": [
     "climate"
@@ -19,32 +20,133 @@
   "permissions": [],
   "images": {
     "small": "/assets/images/small.png",
-    "large": "/assets/images/large.png",
-    "xlarge": "/assets/images/xlarge.png"
+    "large": "/assets/images/large.png"
   },
   "author": {
     "name": "Monique Jilesen",
     "email": "monique.jilesen@gmail.com"
   },
+  "bugs": {
+    "url": "https://github.com/mjilesen/com.hydrawise/issues"
+  },
+  "source": "https://github.com/mjilesen/com.hydrawise",
+  "support": "https://github.com/mjilesen/com.hydrawise/issues",
+  "tags": {
+    "en": [
+      "Hunter Hydrawise",
+      "Zone",
+      "Sprinkler"
+    ],
+    "nl": [
+      "Hunter Hydrawise",
+      "Zone",
+      "Sproeier"
+    ]
+  },
   "flow": {
     "actions": [
       {
-        "id": "start-zone",
+        "id": "set_polling_mode",
         "title": {
-          "en": "Start zone"
+          "en": "Turn polling on / off",
+          "nl": "Polling aan/uit zetten"
+        },
+        "titleFormatted": {
+          "en": "Turn polling [[newPollingMode]]",
+          "nl": "Zet polling [[newPollingMode]]"
+        },
+        "args": [
+          {
+            "name": "newPollingMode",
+            "type": "dropdown",
+            "title": {
+              "en": "Mode"
+            },
+            "values": [
+              {
+                "id": "on",
+                "label": {
+                  "en": "On",
+                  "nl": "aan"
+                }
+              },
+              {
+                "id": "off",
+                "label": {
+                  "en": "Off",
+                  "nl": "uit"
+                }
+              },
+              {
+                "id": "once",
+                "label": {
+                  "en": "Once",
+                  "nl": "eenmaal"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "set_polling_speed",
+        "title": {
+          "en": "Set Polling Interval",
+          "nl": "Stel de update frequentie in"
+        },
+        "titleFormatted": {
+          "en": "Set Polling Interval to [[syncSpeed]]",
+          "nl": "Update frequentie naar [[syncSpeed]]"
+        },
+        "args": [
+          {
+            "name": "syncSpeed",
+            "type": "number",
+            "title": {
+              "en": "Interval"
+            },
+            "min": 30,
+            "placeholder": {
+              "en": "Seconds",
+              "nl": "Seconden"
+            }
+          }
+        ]
+      },
+      {
+        "id": "start_all_zones",
+        "title": {
+          "en": "Start all zones",
+          "nl": "Start alle zones"
+        },
+        "titleFormatted": {
+          "en": "All zones started for [[duration]] minutes",
+          "nl": "Alle zones starten voor [[duration]] minuten"
         },
         "args": [
           {
             "type": "number",
-            "name": "Time",
+            "name": "duration",
             "placeholder": {
-              "en": "Time"
+              "en": "Duration (minutes, 1-60)",
+              "nl": "Duur (minuten, 1-60)"
             },
             "min": 1,
-            "max": 100,
+            "max": 180,
             "step": 1
           }
         ]
+      },
+      {
+        "id": "stop_all_zones",
+        "title": {
+          "en": "Stop all zones",
+          "nl": "Stop alle zones"
+        },
+        "titleFormatted": {
+          "en": "Stop all zones",
+          "nl": "Alle zones stoppen"
+        }
       }
     ]
   },
@@ -55,8 +157,16 @@
       },
       "class": "other",
       "capabilities": [
-        "onoff"
+        "onoff",
+        "meter_remaining_duration",
+        "meter_time_next_run_duration",
+        "meter_time_next_run"
       ],
+      "capabilitiesOptions": {
+        "onoff": {
+          "duration": true
+        }
+      },
       "platforms": [
         "local"
       ],
@@ -68,7 +178,7 @@
           "id": "list_devices",
           "template": "list_devices",
           "options": {
-            "singular": true
+            "singular": false
           },
           "navigation": {
             "next": "add_devices"
@@ -79,10 +189,10 @@
           "template": "add_devices"
         }
       ],
+      "icon": "/drivers/zone/assets/icon.svg",
       "images": {
         "small": "/drivers/zone/assets/images/small.png",
-        "large": "/drivers/zone/assets/images/large.png",
-        "xlarge": "/drivers/zone/assets/images/xlarge.png"
+        "large": "/drivers/zone/assets/images/large.png"
       },
       "id": "zone",
       "settings": [
@@ -90,16 +200,65 @@
           "id": "duration",
           "type": "number",
           "label": {
-            "en": "Duration"
+            "en": "Defaut duration",
+            "nl": "Default sproei duur"
           },
           "value": 15,
           "min": 1,
-          "max": 120,
+          "max": 180,
+          "units": {
+            "en": "minutes",
+            "nl": "minuten"
+          },
           "hint": {
-            "en": "Duration in minutes"
+            "en": "Default watering duration.",
+            "nl": "Default sproei duur"
           }
         }
       ]
     }
-  ]
+  ],
+  "capabilities": {
+    "meter_remaining_duration": {
+      "type": "number",
+      "title": {
+        "en": "Remaining duration",
+        "nl": "Resterende duur"
+      },
+      "units": {
+        "en": "min",
+        "nl": "min"
+      },
+      "uiComponent": "sensor",
+      "getable": true,
+      "setable": false,
+      "icon": "/assets/remainingDuration.svg"
+    },
+    "meter_time_next_run": {
+      "type": "string",
+      "title": {
+        "en": "Next run at",
+        "nl": "Volgende run om"
+      },
+      "uiComponent": "sensor",
+      "getable": true,
+      "setable": false,
+      "icon": "/assets/nextRunAt.svg"
+    },
+    "meter_time_next_run_duration": {
+      "type": "number",
+      "title": {
+        "en": "Next run duration",
+        "nl": "Volgende run duur"
+      },
+      "units": {
+        "en": "min",
+        "nl": "min"
+      },
+      "uiComponent": "sensor",
+      "getable": true,
+      "setable": false,
+      "icon": "/assets/nextRunDuration.svg"
+    }
+  }
 }
