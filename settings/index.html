@@ -11,33 +11,16 @@
     <h1 data-i18n="settings.title"></h1>
 
     <fieldset>
-      <legend data-i18n="settings.apiTitle"></legend>
+      <legend data-i18n="settings.loginTitle"></legend>
 
       <div class="field row">
-        <label for="api_key" data-i18n="settings.apiKey"></label>
-        <input
-          id="api_key"
-          type="text"
-          value=""
-          placeholder="xxxx-xxxx-xxxx-xxxx"
-        />
+        <label for="user_name" data-i18n="settings.userName"></label>
+        <input id="user_name" type="text" value="" placeholder="xxxx@xxx.xxx" />
       </div>
-      <p>
-        <a
-          target="_blank"
-          href="https://app.hydrawise.com/config/login"
-          title="Hydrawise site"
-          data-i18n="settings.get_api_key"
-        ></a>
-      </p>
-      <p>
-        <a
-          target="blank"
-          href="https://support.hydrawise.com/hc/en-us/articles/360008965753-Hydrawise-API-Information"
-          title="Hydrawise support site"
-          data-i18n="settings.more_info"
-        ></a>
-      </p>
+      <div class="field row">
+        <label for="password" data-i18n="settings.password"></label>
+        <input id="password" type="password" value="" />
+      </div>
     </fieldset>
     <fieldset id="preferences">
       <legend data-i18n="settings.preferences"></legend>
@@ -69,14 +52,20 @@
     <script type="text/javascript">
       var pollingEnabledEl = document.getElementById("pollingEnabled");
       var pollingIntervalEl = document.getElementById("pollingInterval");
-      var apiKeyEl = document.getElementById("api_key");
+      var usernameEl = document.getElementById("user_name");
+      var passwordEl = document.getElementById("password");
 
       function onHomeyReady() {
         Homey.ready();
 
-        Homey.get("api_key", function (err, apiKey) {
+        Homey.get("userName", function (err, username) {
           if (err) return Homey.alert(err);
-          apiKeyEl.value = apiKey;
+          usernameEl.value = username;
+        });
+
+        Homey.get("password", function (err, password) {
+          if (err) return Homey.alert(err);
+          passwordEl.value = password;
         });
 
         Homey.get("pollingEnabled", function (err, pollingEnabled) {
@@ -91,22 +80,14 @@
       }
 
       function save() {
-        const api = apiKeyEl.value;
-        const regex =
-          /^[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}/;
-
-        if (api.length === 0) {
-          return Homey.alert(__("errors.emptyApiKey"));
-        }
-        if (!regex.test(api)) {
-          return Homey.alert(__("errors.invalidApiKey"));
-        }
-
-        Homey.set("api_key", api);
+        const username = usernameEl.value;
+        const password = passwordEl.value;
 
         const pollingInterval = pollingIntervalEl.value;
         const pollingEnabled = pollingEnabledEl.checked;
 
+        Homey.set("userName", username);
+        Homey.set("password", password);
         Homey.set("pollingInterval", pollingInterval);
         Homey.set("pollingEnabled", pollingEnabled);
 

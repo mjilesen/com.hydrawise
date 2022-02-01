@@ -6,8 +6,9 @@
     "sync_speed": "Synchronisatie snelheid",
     "sync_tooltip": "(seconden)",
     "save_preferences": "Voorkeuren opslaan",
-    "apiTitle": "API",
-    "apiKey": "API sleutel",
+    "loginTitle": "Login gegevens",
+    "userName": "Gebruikersnaam",
+    "password": "Wachtwoord",
     "api_key_saved": "API sleutel opgeslagen",
     "save_changes": "Opslaan",
     "polling_interval": "Update frequentie",
@@ -21,7 +22,9 @@
     "get_api_key": "Click hier voor een API sleutel",
     "more_info": "Click hier voor meer info.",
     "polling_frequency": "Update frequentie",
-    "polling_frequency_tooltip": "(seconden)"
+    "polling_frequency_tooltip": "(seconden)",
+    "apiTitle": "API",
+    "apiKey": "API sleutel"
   },
   "errors": {
     "invalidApiKey": "Incorrecte API sleutel.",

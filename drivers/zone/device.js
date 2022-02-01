@@ -2,13 +2,14 @@
 
 const { Device } = require("homey");
 const ZoneHelper = require("../../lib/Zone");
+const { OAuth2Device } = require("homey-oauth2app");
 
-class HydraWiseDevice extends Device {
+class HydraWiseDevice extends OAuth2Device {
   /**
    * onInit is called when the device is initialized.
    */
 
-  async onInit() {
+  async onOAuth2Init() {
     this.zoneHelper = new ZoneHelper(this.homey);
     this.isChangedByStatusUpdate = false;
     this.registerCapabilityListener("onoff", async (value, options) => {
@@ -52,7 +53,7 @@ class HydraWiseDevice extends Device {
   /**
    * onDeleted is called when the user deleted the device.
    */
-  async onDeleted() {
+  async onOAuth2Deleted() {
     this.log("HydrawiseDevice has been deleted");
   }
 

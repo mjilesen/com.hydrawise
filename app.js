@@ -1,16 +1,21 @@
 "use strict";
 
-const Homey = require("homey");
+const { OAuth2App } = require("homey-oauth2app");
+const HydrawiseOAuth2Client = require("./lib/HydrawiseOAuth2Client");
 const ZoneHelper = require("./lib/Zone");
 
 const INITIAL_POLLING_INTERVAL = 60; // interval of 60 seconds
 const MIN_POLLING_INTERVAL = 30;
 
-class HydrawiseApp extends Homey.App {
+class HydrawiseApp extends OAuth2App {
+  static OAUTH2_CLIENT = HydrawiseOAuth2Client;
+  static OAUTH2_DEBUG = true; // Default: false
+  static OAUTH2_MULTI_SESSION = true;
+
   /**
    * onInit is called when the app is initialized.
    */
-  async onInit() {
+  async onOAuth2Init() {
     this.syncing = false;
     this.timerId = null;
     this.lastSync = 0;

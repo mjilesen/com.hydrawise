@@ -7,8 +7,9 @@
     "sync_speed": "Sync speed",
     "sync_tooltip": "(seconds)",
     "save_preferences": "Save preferences",
-    "apiTitle": "API",
-    "apiKey": "API key",
+    "loginTitle": "Login credentials",
+    "userName": "User name",
+    "password": "Password",
     "api_key_saved": "API key saved",
     "save_changes": "Save changes",
     "polling_interval": "Update frequency",
@@ -22,7 +23,9 @@
     "get_api_key": "Click here to get an valid API key.",
     "more_info": "Click here for more info.",
     "polling_frequency": "Update frequency",
-    "polling_frequency_tooltip": "(seconds)"
+    "polling_frequency_tooltip": "(seconds)",
+    "apiTitle": "API",
+    "apiKey": "API key"
   },
   "errors": {
     "invalidApiKey": "Invalid API key.",
