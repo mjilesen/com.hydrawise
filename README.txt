@@ -1,5 +1,5 @@
 
-With this app it's possible to connect your Hunter Hydrawise Smart Controller to Homey and control zones directly from Homey.
+Connect your Hydrawise Smart Controller to Homey and control zones directly from Homey.
 
 Use the power of Homey flows to automate your zones.
 
