@@ -1,6 +1,6 @@
 {
   "type": "string",
-  "title": { "en": "Next run at", "nl": "Volgende run om" },
+  "title": { "en": "Next run in", "nl": "Volgende run over" },
   "uiComponent": "sensor",
   "getable": true,
   "setable": false,
