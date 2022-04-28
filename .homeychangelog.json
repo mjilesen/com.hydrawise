@@ -1,10 +1,9 @@
 {
-  "1.0.0": {
-    "en": "Inital version",
-    "nl":" Initiele versie"
-  }
   "1.0.1": {
     "en": "minor fixes to translations, remaining duration is now shown at the correct capability",
     "nl": " kleine verbeteringen van de Nederlandse vertaling, resterende beregeningsduur wordt in het correcte veld getoond "
+  },
+  "1.1.0": {
+    "en": "minor fixes to translations, remaining duration is now shown at the correct capability"
   }
 }
