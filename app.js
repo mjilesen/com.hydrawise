@@ -4,7 +4,7 @@ const Homey = require("homey");
 const ZoneHelper = require("./lib/Zone");
 
 const INITIAL_POLLING_INTERVAL = 60; // interval of 60 seconds
-const MIN_POLLING_INTERVAL = 30;
+const MIN_POLLING_INTERVAL = 60;
 
 class HydrawiseApp extends Homey.App {
   /**
@@ -84,7 +84,7 @@ class HydrawiseApp extends Homey.App {
     this.homey.flow
       .getActionCard("set_polling_speed")
       .registerRunListener(async (args, state) => {
-        this.interval = Math.max(args.syncSpeed, 30);
+        this.interval = Math.max(args.syncSpeed, MIN_POLLING_INTERVAL );
         this.homey.settings.set("pollingInterval", this.interval.toString());
         this.homey.settings.set("pollingEnabled", true);
 
@@ -135,18 +135,15 @@ class HydrawiseApp extends Homey.App {
   }
 
   async startPolling() {
-    this.log("start polling");
     //make sure any old polling actions are stopped
     this.stopPolling();
 
     this.timerId = this.homey.setInterval(() => {
-      this.log("Update status", new Date().toISOString());
       this.updateStatus();
     }, this.interval * 1000);
   }
 
   async stopPolling() {
-    this.log("Stop polling");
     if (this.timerId) {
       clearTimeout(this.timerId);
       this.timerId = null;
@@ -154,7 +151,6 @@ class HydrawiseApp extends Homey.App {
   }
 
   async singlePoll() {
-    this.log("single poll");
     this.updateStatus();
   }
 
@@ -164,7 +160,6 @@ class HydrawiseApp extends Homey.App {
   }
 
   setAllDevicesOnOff(on) {
-    console.log("set all devices off");
     //reset the device onoff status per device
     const devices = this.getAllDevices();
     devices.forEach((device) => {

@@ -2,6 +2,7 @@
 
 const { Device } = require("homey");
 const ZoneHelper = require("../../lib/Zone");
+const Conversions = require( '../../lib/Conversions' );
 
 class HydraWiseDevice extends Device {
   /**
@@ -12,9 +13,7 @@ class HydraWiseDevice extends Device {
     this.zoneHelper = new ZoneHelper(this.homey);
     this.isChangedByStatusUpdate = false;
     this.registerCapabilityListener("onoff", async (value, options) => {
-      console.log("onoff change", this.isChangedByStatusUpdate);
       if (!this.isChangedByStatusUpdate) {
-        this.log("startstopZone");
         await this.zoneHelper.startstopZone(value, options, this);
       }
       this.isChangedByStatusUpdate = false;
@@ -59,15 +58,16 @@ class HydraWiseDevice extends Device {
   // Update the capabilities
   async updateStatus(updatedRelay) {
     const runLength =
-      updatedRelay.timestr === "now" ? updatedRelay.run / 60 : 0;
+      updatedRelay.time === 1 ? updatedRelay.run / 60 : 0;
     this.isChangedByStatusUpdate = true;
-    this.setCapabilityValue("meter_remaining_duration", Math.round(runLength));
+    this.setCapabilityValue("meter_remaining_duration", Math.ceil(runLength));
     this.setCapabilityValue("onoff", updatedRelay.runLength > 0);
-    this.setCapabilityValue(
-      "meter_time_next_run_duration",
-      updatedRelay.timestr === "now" ? 0 : updatedRelay.run / 60
+    this.setCapabilityValue( "meter_time_next_run_duration",
+      updatedRelay.time === 1 ? 0 : updatedRelay.run / 60
     );
-    this.setCapabilityValue("meter_time_next_run", updatedRelay.timestr);
+
+    const nextrunttime = Conversions.toDaysMinutes( updatedRelay.time )
+    this.setCapabilityValue("meter_time_next_run", nextrunttime );
   }
 
   getRemainingDuration() {
