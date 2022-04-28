@@ -28,7 +28,6 @@ class HydrawiseApp extends Homey.App {
     this.homey.settings.on("set", (setting) => {
       if (setting === "pollingEnabled") {
         this.pollingEnabled = this.homey.settings.get("pollingEnabled");
-        this.log("Polling option changed to: ", this.pollingEnabled);
 
         if (this.pollingEnabled) {
           this.startPolling();
@@ -159,11 +158,11 @@ class HydrawiseApp extends Homey.App {
     return driver.getDevices();
   }
 
-  setAllDevicesOnOff(on) {
+  setAllDevicesOnOff(on, duration ) {
     //reset the device onoff status per device
     const devices = this.getAllDevices();
     devices.forEach((device) => {
-      device.setZoneOnOff(on);
+      device.setZoneOnOff(on, duration );
     });
     //turn polling on (always while something is running)
     if (this.timerId === null && on) {
