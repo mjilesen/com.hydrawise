@@ -8,5 +8,8 @@
   },
   "1.1.1": {
     "en": "Small fix when starting/stopping zones"
+  },
+  "1.1.2": {
+    "en": "Added Paypal account"
   }
 }
