@@ -5,5 +5,8 @@
   },
   "1.1.0": {
     "en": "minor fixes to translations, remaining duration is now shown at the correct capability"
+  },
+  "1.1.1": {
+    "en": "Small fix when starting/stopping zones"
   }
 }
