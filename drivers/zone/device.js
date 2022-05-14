@@ -13,7 +13,7 @@ class HydraWiseDevice extends Device {
     this.zoneHelper = new ZoneHelper(this.homey);
     this.isChangedByStatusUpdate = false;
     this.registerCapabilityListener("onoff", async (value, options) => {
-      if (!this.isChangedByStatusUpdate) {
+            if (!this.isChangedByStatusUpdate) {
         await this.zoneHelper.startstopZone(value, options, this);
       }
       this.isChangedByStatusUpdate = false;
@@ -74,7 +74,6 @@ class HydraWiseDevice extends Device {
   }
 
   setZoneOnOff(on, duration ) {
-    this.isChangedByStatusUpdate = true;
     this.setCapabilityValue("onoff", on);
     this.updateRemainingDuration( on, duration );
   }
