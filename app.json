@@ -26,6 +26,12 @@
     "name": "Monique Jilesen",
     "email": "monique.jilesen@gmail.com"
   },
+  "contributing": {
+    "donate": {
+      "paypal": {
+        "username": "@mjilesen"
+      }
+  },
   "bugs": {
     "url": "https://github.com/mjilesen/com.hydrawise/issues"
   },
