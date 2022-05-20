@@ -7,7 +7,8 @@
     "onoff",
     "meter_remaining_duration",
     "meter_time_next_run_duration",
-    "meter_time_next_run"
+    "meter_time_next_run",
+    "is_running"
   ],
   "capabilitiesOptions": {
     "onoff": { "duration": true }

@@ -29,7 +29,7 @@
   "contributing": {
     "donate": {
       "paypal": {
-        "username": "@mjilesen"
+        "username": "mjilesen"
       }
     }
   },
@@ -167,7 +167,8 @@
         "onoff",
         "meter_remaining_duration",
         "meter_time_next_run_duration",
-        "meter_time_next_run"
+        "meter_time_next_run",
+        "is_running"
       ],
       "capabilitiesOptions": {
         "onoff": {
@@ -226,6 +227,17 @@
     }
   ],
   "capabilities": {
+    "is_running": {
+      "type": "boolean",
+      "title": {
+        "en": "Zone is running",
+        "nl": "Zone is aan het sproeien"
+      },
+      "uiComponent": "sensor",
+      "getable": true,
+      "setable": false,
+      "icon": "/assets/sprinkler.svg"
+    },
     "meter_remaining_duration": {
       "type": "number",
       "title": {
