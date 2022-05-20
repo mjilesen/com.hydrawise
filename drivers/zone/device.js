@@ -11,12 +11,8 @@ class HydraWiseDevice extends Device {
 
   async onInit() {
     this.zoneHelper = new ZoneHelper(this.homey);
-    this.isChangedByStatusUpdate = false;
     this.registerCapabilityListener("onoff", async (value, options) => {
-            if (!this.isChangedByStatusUpdate) {
-        await this.zoneHelper.startstopZone(value, options, this);
-      }
-      this.isChangedByStatusUpdate = false;
+    await this.zoneHelper.startstopZone(value, options, this);
     });
   }
 
@@ -59,11 +55,11 @@ class HydraWiseDevice extends Device {
   async updateStatus(updatedRelay) {
     const running = updatedRelay.time === 1
     const runLength = running ? updatedRelay.run / 60 : 0;
-    this.isChangedByStatusUpdate = true;
+    //this.isChangedByStatusUpdate = true;
     this.setCapabilityValue("meter_remaining_duration", Math.ceil(runLength));
-    this.setCapabilityValue("onoff", running );
-    this.setCapabilityValue( "meter_time_next_run_duration", running ? 0 : updatedRelay.run / 60
-    );
+  //  this.setCapabilityValue("onoff", running );
+    this.setCapabilityValue( "meter_time_next_run_duration", running ? 0 : updatedRelay.run / 60 );
+    this.updateRunning( running );
 
     const nextrunttime = Conversions.toDaysMinutes( updatedRelay.time )
     this.setCapabilityValue("meter_time_next_run", nextrunttime );
@@ -81,6 +77,10 @@ class HydraWiseDevice extends Device {
   updateRemainingDuration( on, duration ){
     const newDuration = on?Math.round( duration/60 ): 0;
     this.setCapabilityValue("meter_remaining_duration", newDuration ) ;
+  }
+
+  updateRunning( on ){
+    this.setCapabilityValue("is_running", on ) ;
   }
 }
 
