@@ -57,7 +57,6 @@ class HydraWiseDevice extends Device {
     const runLength = running ? updatedRelay.run / 60 : 0;
     //this.isChangedByStatusUpdate = true;
     this.setCapabilityValue("meter_remaining_duration", Math.ceil(runLength));
-  //  this.setCapabilityValue("onoff", running );
     this.setCapabilityValue( "meter_time_next_run_duration", running ? 0 : updatedRelay.run / 60 );
     this.updateRunning( running );
 
@@ -81,6 +80,7 @@ class HydraWiseDevice extends Device {
 
   updateRunning( on ){
     this.setCapabilityValue("is_running", on ) ;
+    this.setCapabilityValue("onoff", on );
   }
 }
 
