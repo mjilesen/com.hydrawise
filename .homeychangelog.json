@@ -20,5 +20,8 @@
   },
   "1.2.1": {
     "en": "Fixes some small bugs, correct watering duration is now used."
+  },
+  "1.2.2": {
+    "en": "Fixed crash"
   }
 }
