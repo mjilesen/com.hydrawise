@@ -17,5 +17,8 @@
   },
   "1.2.0": {
     "en": "Fixed update logic"
+  },
+  "1.2.1": {
+    "en": "Fixes some small bugs, correct watering duration is now used."
   }
 }
