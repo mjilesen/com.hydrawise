@@ -10,6 +10,7 @@ class HydraWiseDevice extends Device {
    */
 
   async onInit() {
+    await this.initCapabilities()
     this.zoneHelper = new ZoneHelper(this.homey);
     this.registerCapabilityListener("onoff", async (value, options) => {
     await this.zoneHelper.startstopZone(value, options, this);
@@ -49,6 +50,22 @@ class HydraWiseDevice extends Device {
    */
   async onDeleted() {
     this.log("HydrawiseDevice has been deleted");
+  }
+
+  async initCapabilities(){
+    //make sure that all the capabilities are created
+    if ( !this.hasCapability( "is_running") ){
+      this.addCapability( "is_running")
+    }
+    if ( !this.hasCapability( "meter_remaining_duration") ){
+      this.addCapability( "meter_remaining_duration")
+    }
+    if ( !this.hasCapability( "meter_time_next_run_duration") ){
+      this.addCapability( "meter_time_next_run_duration")
+    }
+    if ( !this.hasCapability( "meter_time_next_run") ){
+      this.addCapability( "meter_time_next_run")
+    }
   }
 
   // Update the capabilities
