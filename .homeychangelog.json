@@ -26,5 +26,8 @@
   },
   "1.2.3": {
     "en": "Fixed crashes that occured in last week. New capability is now automatically added when the app is re-started."
+  },
+  "1.3.0": {
+    "en": "Added controller ID to the api calls. Now the app also works for users with multiple controllers."
   }
 }
