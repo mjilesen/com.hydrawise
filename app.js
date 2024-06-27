@@ -53,6 +53,7 @@ class HydrawiseApp extends Homey.App {
     this.addPollingActionListeners();
     this.addStartAllZonesActionListeners();
     this.addStopAllZonesActionListeners();
+    this.addWateringDurationActionListeners();
   }
 
   /**
@@ -109,6 +110,57 @@ class HydrawiseApp extends Homey.App {
           return this.stopPolling();
         }
       });
+  }
+
+  addWateringDurationActionListeners() {
+   const wateringDurationActionCard = this.homey.flow.getActionCard('set_watering_duration');
+   wateringDurationActionCard.registerRunListener(async (args, state) => {
+     const { device } = args;
+     console.log( "watering duration", args.wateringDuration.id)
+     await device
+       .setCapabilityValue( 'watering_duration', args.wateringDuration.id.toString() )
+    //   .catch(error => this.logInformation('App.Init WateringDuration', {
+    //     message: error.message,
+    //     stack: error.stack,
+    //   }));
+   });
+   wateringDurationActionCard.registerArgumentAutocompleteListener(
+    'wateringDuration',
+    async (query, args) => {
+      const results = [{ id:1, name: 1},
+        {id:2, name:2},
+        {id:3, name: 3},
+        {id:4, name: 4},
+        {id:5, name: 5},
+        {id:6, name: 6},
+        {id:7, name: 7},
+        {id:8, name: 8},
+        {id:9, name: 9},
+        {id:10, name: 10},
+        {id:11, name: 11},
+        {id:12, name: 12},
+        {id:13, name: 13},
+        {id:14, name: 14},
+        {id:15, name: 15},
+        {id:16, name: 16},
+        {id:17, name: 17},
+        {id:18, name: 18},
+        {id:19, name: 19},
+        {id:20, name: 20},
+        {id:25, name: 25},
+        {id:30, name: 30},
+        {id:35, name: 35},
+        {id:40, name: 40},
+        {id:45, name: 45},
+        {id:50, name: 50},
+        {id:60, name: 60},
+        {id:70, name: 70},
+        {id:80, name: 80},
+        {id:90, name: 90}  
+      ]
+      return results
+    },
+  );
   }
 
   setInitialPollingSettings() {

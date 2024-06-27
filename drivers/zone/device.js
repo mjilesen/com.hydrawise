@@ -15,6 +15,10 @@ class HydraWiseDevice extends Device {
     this.registerCapabilityListener("onoff", async (value, options) => {
     await this.zoneHelper.startstopZone(value, options, this);
     });
+
+    this.registerCapabilityListener("watering_duration", async (value, options) => {
+      await this.zoneHelper.setWateringDuration( value, options, this);
+    });
   }
 
   /**
@@ -65,6 +69,11 @@ class HydraWiseDevice extends Device {
     }
     if ( !this.hasCapability( "meter_time_next_run") ){
       this.addCapability( "meter_time_next_run")
+    }
+    if ( !this.hasCapability( "watering_duration") ){
+      this.addCapability( "watering_duration")
+      const defaultDuration = this.getSetting("duration")
+      this.setCapabilityValue( "watering_duration", defaultDuration.toString() )
     }
   }
 

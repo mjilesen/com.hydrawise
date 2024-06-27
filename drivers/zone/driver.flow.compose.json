@@ -1,0 +1,24 @@
+{
+  "triggers": [
+  ],
+  "actions": [
+    
+    {
+      "id": "set_watering_duration",
+      "title": { "en": "Set watering duration", "nl": "Zet beregeningsduur" },
+      "titleFormatted": {
+        "en": "Set watering duration to [[wateringDuration]] minutes",
+        "nl": "Zet beregeningsduur naar [[wateringDuration]] minuten"
+      },
+      "args": [
+        {
+          "name": "wateringDuration",
+          "type": "autocomplete",
+          "title": { "en": "Watering duration", "nl": "Beregeningsduur" }
+        }
+      ]
+    }
+   ],
+  "conditions": [
+    ]
+}
