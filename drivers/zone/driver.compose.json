@@ -8,8 +8,9 @@
     "meter_remaining_duration",
     "meter_time_next_run_duration",
     "meter_time_next_run",
-    "is_running"
-  ],
+    "is_running",
+    "watering_duration"
+    ],
   "capabilitiesOptions": {
     "onoff": { "duration": true }
   },
