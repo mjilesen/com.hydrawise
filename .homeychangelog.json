@@ -32,5 +32,8 @@
   },
   "1.4.0": {
     "en": "Added possibility to add multiple accounts"
+  },
+  "1.5.0": {
+    "en": "Added possiblity to set the watering duration in the app and via a flow."
   }
 }
