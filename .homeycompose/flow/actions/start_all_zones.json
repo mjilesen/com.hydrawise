@@ -12,6 +12,10 @@
     {
       "type": "number",
       "name": "duration",
+      "title": {
+            "en":"Duration",
+            "nl":"Duur"
+          },  
       "placeholder": {
         "en": "Duration (minutes, 1-60)",
         "nl": "Duur (minuten, 1-60)"
