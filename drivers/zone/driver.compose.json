@@ -2,7 +2,7 @@
   "name": {
     "en": "Zone"
   },
-  "class": "other",
+  "class": "sprinkler",
   "capabilities": [
     "onoff",
     "meter_remaining_duration",
