@@ -37,6 +37,7 @@
             {"id":"60", "title": {"en":"60 minutes"}},
             {"id":"70", "title": {"en":"70 minutes"}},
             {"id":"80", "title": {"en":"80 minutes"}},
-            {"id":"90", "title": {"en":"90 minutes"}}  
+            {"id":"90", "title": {"en":"90 minutes"}}, 
+            {"id":"120", "title": {"en":"120 minutes"}}
           ]
 }

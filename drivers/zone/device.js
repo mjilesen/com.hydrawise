@@ -72,7 +72,7 @@ class HydraWiseDevice extends Device {
     }
     if ( !this.hasCapability( "watering_duration") ){
       this.addCapability( "watering_duration")
-      const defaultDuration = this.getSetting("duration")
+      const defaultDuration = Math.min( this.getSetting("duration"), 20 );
       this.setCapabilityValue( "watering_duration", defaultDuration.toString() )
     }
   }
