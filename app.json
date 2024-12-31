@@ -503,6 +503,12 @@
           "title": {
             "en": "90 minutes"
           }
+        },
+        {
+          "id": "120",
+          "title": {
+            "en": "120 minutes"
+          }
         }
       ]
     }
